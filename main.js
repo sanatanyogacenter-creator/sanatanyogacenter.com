@@ -25,7 +25,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     // Contact Form Handler
-    const contactForm = document.querySelector("form");
+   const contactForm = document.getElementById("contactForm");
 
     if (contactForm) {
         contactForm.addEventListener("submit", function (e) {
