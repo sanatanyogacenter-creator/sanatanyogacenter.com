@@ -11,6 +11,69 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
 </head>
+
+    <script>
+
+const reviewForm =
+document.getElementById("reviewForm");
+
+if(reviewForm){
+
+reviewForm.addEventListener(
+"submit",
+
+function(e){
+
+e.preventDefault();
+
+emailjs.send(
+"service_f6djv6q",
+"template_ghizqdj",
+{
+
+name:
+document.getElementById(
+"review_name"
+).value,
+
+rating:
+document.getElementById(
+"review_rating"
+).value,
+
+message:
+document.getElementById(
+"review_message"
+).value
+
+}
+
+)
+
+.then(function(){
+
+alert(
+"Thank you for your review!"
+);
+
+reviewForm.reset();
+
+})
+
+.catch(function(){
+
+alert(
+"Failed to submit review."
+);
+
+});
+
+});
+
+}
+
+</script>
+    
 <body>
 
     <!-- Header -->
