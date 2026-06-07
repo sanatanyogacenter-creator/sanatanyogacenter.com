@@ -538,12 +538,12 @@ reviewForm.addEventListener("submit", function(e){
 
     e.preventDefault();
 
-    const reviewData = {
-        name: document.getElementById("name").value,
-        rating: document.getElementById("rating").value,
-        review: document.getElementById("review").value,
-        date: new Date().toLocaleDateString()
-    };
+  const reviewData = {
+    name: document.getElementById("reviewName").value,
+    rating: document.getElementById("reviewRating").value,
+    review: document.getElementById("reviewText").value,
+    date: new Date().toLocaleDateString()
+};
 
     push(ref(db, "reviews"), reviewData);
 
@@ -580,5 +580,7 @@ onValue(ref(db, "reviews"), (snapshot)=>{
 </script>
 
     <script src="main.js"></script>
+
+    
 </body>
 </html>
