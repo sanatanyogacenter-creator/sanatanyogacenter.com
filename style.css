@@ -477,3 +477,36 @@ footer{
     background:#000000;
     transform:translateY(-3px);
 }
+
+/* Review Form */
+
+.submit-review{
+    background:#f8fafc;
+}
+
+.submit-review p{
+    text-align:center;
+    margin-bottom:30px;
+}
+
+#reviewForm{
+    max-width:700px;
+    margin:auto;
+}
+
+#reviewForm input,
+#reviewForm select,
+#reviewForm textarea{
+
+    width:100%;
+
+    padding:15px;
+
+    border:1px solid #ddd;
+
+    border-radius:12px;
+
+    margin-bottom:15px;
+
+    font-size:15px;
+}
