@@ -12,68 +12,7 @@
     
 </head>
 
-    <script>
-
-const reviewForm =
-document.getElementById("reviewForm");
-
-if(reviewForm){
-
-reviewForm.addEventListener(
-"submit",
-
-function(e){
-
-e.preventDefault();
-
-emailjs.send(
-"service_f6djv6q",
-"template_ghizqdj",
-{
-
-name:
-document.getElementById(
-"review_name"
-).value,
-
-rating:
-document.getElementById(
-"review_rating"
-).value,
-
-message:
-document.getElementById(
-"review_message"
-).value
-
-}
-
-)
-
-.then(function(){
-
-alert(
-"Thank you for your review!"
-);
-
-reviewForm.reset();
-
-})
-
-.catch(function(){
-
-alert(
-"Failed to submit review."
-);
-
-});
-
-});
-
-}
-
-</script>
-    
+     
 <body>
 
     <!-- Header -->
@@ -322,7 +261,7 @@ alert(
 
 </section>
 
-     <section class="review-system">
+   <section class="review-system">
 
     <div class="container">
 
@@ -337,12 +276,31 @@ alert(
                 required>
 
             <select id="rating" required>
-                <option value="">Select Rating</option>
-                <option value="5">⭐⭐⭐⭐⭐ Excellent</option>
-                <option value="4">⭐⭐⭐⭐ Very Good</option>
-                <option value="3">⭐⭐⭐ Good</option>
-                <option value="2">⭐⭐ Average</option>
-                <option value="1">⭐ Poor</option>
+
+                <option value="">
+                    Select Rating
+                </option>
+
+                <option value="5">
+                    ⭐⭐⭐⭐⭐ Excellent
+                </option>
+
+                <option value="4">
+                    ⭐⭐⭐⭐ Very Good
+                </option>
+
+                <option value="3">
+                    ⭐⭐⭐ Good
+                </option>
+
+                <option value="2">
+                    ⭐⭐ Average
+                </option>
+
+                <option value="1">
+                    ⭐ Poor
+                </option>
+
             </select>
 
             <textarea
@@ -354,7 +312,9 @@ alert(
             <button
                 type="submit"
                 class="btn-primary">
+
                 Submit Review
+
             </button>
 
         </form>
@@ -433,76 +393,7 @@ alert(
 
     </section>
 
-     <!-- Submit Review Section -->
-
-<section class="submit-review">
-
-    <div class="container">
-
-        <h2>Share Your Experience</h2>
-
-        <p>
-            Tell us about your yoga journey at Sanatan Yoga Centre.
-        </p>
-
-        <form id="reviewForm">
-
-            <input
-            type="text"
-            id="review_name"
-            placeholder="Your Name"
-            required>
-
-            <select
-            id="review_rating"
-            required>
-
-                <option value="">
-                    Select Rating
-                </option>
-
-                <option value="⭐⭐⭐⭐⭐">
-                    ⭐⭐⭐⭐⭐ (Excellent)
-                </option>
-
-                <option value="⭐⭐⭐⭐">
-                    ⭐⭐⭐⭐ (Very Good)
-                </option>
-
-                <option value="⭐⭐⭐">
-                    ⭐⭐⭐ (Good)
-                </option>
-
-                <option value="⭐⭐">
-                    ⭐⭐ (Average)
-                </option>
-
-                <option value="⭐">
-                    ⭐ (Poor)
-                </option>
-
-            </select>
-
-            <textarea
-            id="review_message"
-            rows="5"
-            placeholder="Write your review..."
-            required></textarea>
-
-            <button
-            type="submit"
-            class="btn-primary">
-
-            Submit Review
-
-            </button>
-
-        </form>
-
-    </div>
-
-</section>
-
+   
 
     <!-- Footer -->
     <footer>
@@ -602,6 +493,77 @@ document.addEventListener("DOMContentLoaded", function(){
         });
 
     }
+
+});
+
+</script>
+
+    <script type="module">
+
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+
+import {
+getDatabase,
+ref,
+push,
+onValue
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyA9GG9A4gBDBJsZgeiDTSIoUUHdoo_tz9c",
+  authDomain: "sanatan-yoga-centre.firebaseapp.com",
+  databaseURL: "https://sanatan-yoga-centre-default-rtdb.firebaseio.com",
+  projectId: "sanatan-yoga-centre",
+  storageBucket: "sanatan-yoga-centre.firebasestorage.app",
+  messagingSenderId: "686217961198",
+  appId: "1:686217961198:web:96fb4df578f93bb7d8ddff"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getDatabase(app);
+
+const reviewForm = document.getElementById("reviewForm");
+
+reviewForm.addEventListener("submit", function(e){
+
+    e.preventDefault();
+
+    const reviewData = {
+        name: document.getElementById("name").value,
+        rating: document.getElementById("rating").value,
+        review: document.getElementById("review").value,
+        date: new Date().toLocaleDateString()
+    };
+
+    push(ref(db, "reviews"), reviewData);
+
+    alert("Thank you for your review!");
+
+    reviewForm.reset();
+});
+
+const reviewsContainer =
+document.getElementById("reviewsContainer");
+
+onValue(ref(db, "reviews"), (snapshot)=>{
+
+    reviewsContainer.innerHTML = "";
+
+    snapshot.forEach((child)=>{
+
+        const data = child.val();
+
+        reviewsContainer.innerHTML += `
+        <div class="firebase-review">
+            <h4>${data.name}</h4>
+            <div class="stars">
+                ${"⭐".repeat(Number(data.rating))}
+            </div>
+            <p>${data.review}</p>
+            <small>${data.date}</small>
+        </div>
+        `;
+    });
 
 });
 
